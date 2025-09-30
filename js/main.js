@@ -3,10 +3,10 @@ window.SITE = {
   siteName: "Physiotherapie ",
   email: { method: "none", to: "Dennis.Clemens92@gmail.com" },
   pages: {
-    startHeroLight: "/Assets/BackgroundHell.jpg",
-    startHeroDark: "/Assets/BackgroundDark.jpg",
-    kontaktHero: "/Assets/BackgroundAnmeldung.jpg",
-    logo: "/Assets/Logo.png"
+    startHeroLight: "./Assets/BackgroundHell.jpg",
+    startHeroDark: "./Assets/BackgroundDark.jpg",
+    kontaktHero: "./Assets/BackgroundAnmeldung.jpg",
+    logo: "./Assets/Logo.png"
   },
   auth: { demoUser: "Dennis", demoPass: "1" },
   calendar: { startHour: 8, endHour: 20, stepMinutes: 60 }
