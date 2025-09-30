@@ -1,0 +1,183 @@
+/* ===== Design Tokens ===== */
+:root {
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #475569;
+  --brand: #0ea5e9;
+  --brand-2: #10b981;
+  --surface: #f1f5f9;
+  --border: color-mix(in oklab, var(--fg), transparent 88%);
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(2,6,23,.08);
+  --maxw: 1120px;
+  --pad: clamp(16px, 2vw, 24px);
+}
+
+[data-theme="dark"],
+[data-theme="auto"].prefers-dark {
+  --bg: #0b1220;
+  --fg: #e2e8f0;
+  --muted: #94a3b8;
+  --brand: #22d3ee;
+  --brand-2: #34d399;
+  --surface: #111827;
+  --border: color-mix(in oklab, var(--fg), transparent 84%);
+}
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--brand); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; }
+p { margin: 0 0 1em; }
+.muted { color: var(--muted); }
+
+/* ===== Header / Nav ===== */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--bg), transparent 20%);
+  border-bottom: 1px solid var(--border);
+}
+.nav {
+  display: flex; gap: 16px; align-items: center; justify-content: space-between;
+  padding: 12px 0;
+}
+.brand { display: flex; gap: 10px; align-items: center; }
+.brand img.logo {
+  height: 72px; width: auto; /* doppelt so groß, eckig */
+  border-radius: 6px; /* ganz eckig? -> auf 0 setzen */
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.25));
+}
+.nav a {
+  padding: 8px 12px; border-radius: 10px; font-weight: 600; color: var(--fg);
+}
+.nav a.active,
+.nav a:hover {
+  background: color-mix(in oklab, var(--brand), transparent 85%);
+  text-decoration: none;
+}
+.theme-toggle {
+  border: 1px solid var(--border); background: var(--surface); color: var(--fg);
+  padding: 8px 12px; border-radius: 999px; cursor: pointer; font-weight: 600;
+  transition: transform .15s ease;
+}
+.theme-toggle:hover { transform: translateY(-1px); }
+
+/* ===== Hero ===== */
+.hero {
+  position: relative; min-height: 62vh; display: grid; align-items: center;
+  background-position: center; background-size: cover;
+  border-bottom: 1px solid var(--border);
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--bg), transparent 10%) 70%);
+}
+.hero .inner { position: relative; z-index: 1; padding: 8vh 0; }
+.hero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ===== Sections / Cards / Buttons ===== */
+section { padding: 56px 0; }
+.grid { display: grid; gap: 24px; }
+@media (min-width: 900px) {
+  .grid-2 { grid-template-columns: 1.1fr 1fr; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(2,6,23,.12);
+  border-color: color-mix(in oklab, var(--brand), transparent 70%);
+}
+.btn {
+  display: inline-block; padding: 12px 18px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #001018; font-weight: 700; letter-spacing: .2px;
+  box-shadow: var(--shadow);
+  transition: transform .15s ease, filter .15s ease;
+}
+.btn:hover { transform: translateY(-1px); filter: saturate(1.05); }
+.btn.secondary {
+  background: var(--surface); color: var(--fg);
+  border: 1px solid var(--border);
+}
+
+/* ===== Lists / Prices ===== */
+.list-prices { list-style: none; margin: 0; padding: 0; }
+.list-prices li {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 12px 14px; border-bottom: 1px dashed var(--border);
+  transition: background .15s ease, transform .15s ease;
+}
+.list-prices li:last-child { border-bottom: 0; }
+.list-prices li:hover {
+  background: color-mix(in oklab, var(--brand), transparent 92%);
+  transform: translateX(2px);
+}
+
+/* ===== Forms ===== */
+form label { display: block; font-weight: 600; margin: 10px 0 6px; }
+.input, .textarea, .select {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border); background: transparent; color: var(--fg);
+}
+.textarea { min-height: 112px; resize: vertical; }
+.form-row { display: grid; gap: 14px; }
+@media (min-width: 700px) { .form-row-2 { grid-template-columns: 1fr 1fr; } }
+.radios { display: flex; gap: 14px; flex-wrap: wrap; }
+.helper { font-size: 13px; color: var(--muted); }
+
+/* ===== Footer ===== */
+footer {
+  padding: 40px 0; border-top: 1px solid var(--border); font-size: 14px; color: var(--muted);
+}
+
+/* ===== Utility ===== */
+.visually-hidden {
+  position: absolute !important; height: 1px; width: 1px; overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); white-space: nowrap;
+}
+/* --- Footer immer unten --- */
+html, body { height: 100%; }
+body {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+main { flex: 1 0 auto; }
+footer { margin-top: auto; }
+
+/* --- Kontaktseite: Karte volle Breite innerhalb .container --- */
+.card--full {
+  display: block;
+  width: 100%;
+  max-width: none;            /* überschreibt evtl. Max-Breiten */
+  box-sizing: border-box;
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Optional: Wenn du die Karte optisch noch "größer" wirken lassen willst */
+.card-contact {
+  /* Beispiel: leicht größere Schrift und Zeilenhöhe */
+  font-size: 1.05rem;
+  line-height: 1.6;
+}

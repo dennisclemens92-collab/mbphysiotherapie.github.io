@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de" data-theme="auto">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MB Physiotherapie  – Start</title>
+  <meta name="description" content="Moderne Physiotherapie. Individuelle Behandlung, persönliche Betreuung." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <img src="/Assets/Logo.png" alt="Praxis Logo" class="logo" />
+        <strong>MB Physiotherapie </strong>
+      </div>
+      <nav class="nav-links">
+        <a data-href="/index.html" href="/index.html">Start</a>
+        <a data-href="/leistungen.html" href="/leistungen.html">Leistungen</a>
+        <a data-href="/praxis.html" href="/praxis.html">Praxis</a>
+        <a data-href="/kontakt.html" href="/kontakt.html">Termin & Kontakt</a>
+        <a data-href="/team.html" href="/team.html">Team</a>
+        <a data-href="/recht.html" href="/recht.html">Impressum & Datenschutz</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Theme umschalten">Theme: auto</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero-start" role="img" aria-label="Praxis Hintergrundbild">
+      <div class="container inner">
+        <h1>Individuell. Ganzheitlich. Wirksam.</h1>
+        <p class="muted">Individuelle Behandlung, moderne Methoden, persönliche Betreuung.</p>
+        <div class="actions">
+          <a class="btn" href="/kontakt.html">Termin anfragen</a>
+          <a class="btn secondary" href="/leistungen.html">Leistungen ansehen</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <h2>Warum unsere Praxis?</h2>
+      <div class="grid grid-3">
+        <article class="card"><h3>Individuelle Therapie</h3><p class="muted">Behandlung auf Augenhöhe – wir hören zu und handeln zielgerichtet.</p></article>
+        <article class="card"><h3>Aktuelle Methoden</h3><p class="muted">Evidenzbasiert & sportnah – sinnvoll statt modisch.</p></article>
+        <article class="card"><h3>Kurze Wege</h3><p class="muted">Klare Terminführung, verlässliche Kommunikation.</p></article>
+      </div>
+    </section>
+
+    <section class="container">
+      <h2>Leistungen (Auszug)</h2>
+      <div class="grid grid-3">
+        <article class="card"><h3>Manuelle Therapie</h3><p class="muted">Gezielte Mobilisation und Schmerzreduktion.</p></article>
+        <article class="card"><h3>Lymphdrainage</h3><p class="muted">Sanfte Entstauungstherapie bei Ödemen.</p></article>
+        <article class="card"><h3>Sportphysiotherapie</h3><p class="muted">Rehabilitation & Leistungssteigerung.</p></article>
+      </div>
+      <p><a class="btn" href="/leistungen.html">Zur Leistungsübersicht</a></p>
+    </section>
+
+    <section class="container">
+      <h2>Das Team</h2>
+      <div class="grid grid-3">
+        <article class="card">
+          <img src="/Assets/team-placeholder.jpg" alt="Michelle – Inhaberin" style="border-radius:12px; aspect-ratio:4/5; object-fit:cover;">
+          <h3>Michelle</h3>
+          <p class="muted">Inhaberin & Physiotherapeutin</p>
+        </article>
+      </div>
+      <p><a class="btn" href="/team.html">Lerne uns kennen</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> MB Physiotherapie  · <a href="/recht.html">Impressum & Datenschutz</a></div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

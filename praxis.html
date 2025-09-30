@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de" data-theme="auto">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Praxis – MB Physiotherapie </title>
+  <meta name="description" content="Einblick in unsere Praxisräume." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <img src="/Assets/Logo.png" alt="Praxis Logo" class="logo" />
+        <strong>MB Physiotherapie </strong>
+      </div>
+      <nav class="nav-links">
+        <a data-href="/index.html" href="/index.html">Start</a>
+        <a data-href="/leistungen.html" href="/leistungen.html">Leistungen</a>
+        <a data-href="/praxis.html" href="/praxis.html">Praxis</a>
+        <a data-href="/kontakt.html" href="/kontakt.html">Termin & Kontakt</a>
+        <a data-href="/team.html" href="/team.html">Team</a>
+        <a data-href="/recht.html" href="/recht.html">Impressum & Datenschutz</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button">Theme: auto</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="grid grid-2">
+      <div>
+        <h1>Unsere Praxis</h1>
+        <p>
+          Unsere neue Praxis steht für kurze Wege, klare Kommunikation und eine ruhige Atmosphäre.
+          Die Behandlungsräume sind modern ausgestattet und auf eine individuelle Therapie ausgerichtet.
+          Bitte beachte: Die Praxis ist aktuell <strong>nicht barrierefrei</strong>. Der Zugang erfolgt über
+          mehrere Stufen, ein Aufzug ist derzeit nicht vorhanden. Wir helfen dir gern vor Ort – melde dich
+          vorab, wenn du Unterstützung beim Zugang benötigst.
+        </p>
+        <p>
+          Parkmöglichkeiten befinden sich in der Umgebung. Öffentliche Verkehrsmittel sind fußläufig erreichbar.
+          Wir arbeiten mit Terminvergabe, um Wartezeiten zu vermeiden.
+        </p>
+      </div>
+      <div>
+        <img src="/Assets/Praxis.jpg" alt="Blick in die Praxisräume" class="card" />
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> MB Physiotherapie  · <a href="/recht.html">Impressum & Datenschutz</a></div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
