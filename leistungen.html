@@ -1,51 +1,115 @@
 <!doctype html>
-<html lang="de" data-theme="auto">
+<html lang="de">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Leistungen – MB Physiotherapie </title>
-  <meta name="description" content="Leistungsübersicht und Beispielpreise." />
+  <title>Leistungen – MB Physiotherapie</title>
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <img src="./Assets/Logo.png" alt="Praxis Logo" class="logo" />
-        <strong>MB Physiotherapie </strong>
-      </div>
-      <nav class="nav-links">
-        <a data-href="./index.html" href="./index.html">Start</a>
-        <a data-href="./leistungen.html" href="./leistungen.html">Leistungen</a>
-        <a data-href="./praxis.html" href="./praxis.html">Praxis</a>
-        <a data-href="./kontakt.html" href="./kontakt.html">Termin & Kontakt</a>
-        <a data-href="./team.html" href="./team.html">Team</a>
-        <a data-href="./recht.html" href="./recht.html">Impressum & Datenschutz</a>
-      </nav>
-      <button id="theme-toggle" class="theme-toggle" type="button">Theme: auto</button>
-    </div>
-  </header>
+
+  !-- Header (falls du header.html via fetch einbindest, kannst du diesen Block nutzen)
+  <div id="site-header"></div>
+  <script>
+    fetch("/header.html").then(r=>r.text()).then(html=>{
+      const anchor=document.getElementById("site-header");
+      anchor.insertAdjacentHTML("afterend", html);
+      anchor.remove();
+      if (typeof initHeaderNav==='function') initHeaderNav();
+    });
+  </script>
+  
 
   <main class="container">
     <section>
-      <h1>Leistungen</h1>
+      <h2>Leistungen</h2>
       <p class="muted">Beispielangebot (Platzhalter) – Inhalte/Preise später anpassen.</p>
-      <ul class="list-prices card">
-        <li><span>Physiotherapie</span><strong>#1</strong></li>
-        <li><span>Krankengymnastik</span><strong>#2</strong></li>
-        <li><span>Manuelle Therapie</span><strong>#3</strong></li>
-        <li><span>CMD (Craniomandibuläre Dysfunktion)</span><strong>#4</strong></li>
-        <li><span>Manuelle Lymphdrainage</span><strong>#5</strong></li>
-      </ul>
-      <p class="helper">Hinweis: Preise dienen als Beispiel; Abrechnung nach Verordnung/Kasse bzw. Selbstzahlerleistungen individuell.</p>
+
+      <div class="services">
+        <!-- Item 1 -->
+        <article class="service">
+          <button class="service-header" aria-expanded="false">
+            <span>Physiotherapie</span>
+            <span class="service-tag">+</span>
+          </button>
+          <div class="service-content" hidden>
+            <p>
+              Individuelle Befundung und Behandlung akuter & chronischer Beschwerden
+              des Bewegungsapparates mit aktiven Übungen und manuellen Techniken.
+            </p>
+          </div>
+        </article>
+
+        <!-- Item 2 -->
+        <article class="service">
+          <button class="service-header" aria-expanded="false">
+            <span>Krankengymnastik</span>
+            <span class="service-tag">+</span>
+          </button>
+          <div class="service-content" hidden>
+            <p>
+              Funktionelle Übungen zur Verbesserung von Beweglichkeit, Kraft und
+              Koordination – alltagsnah, zielgerichtet, messbar.
+            </p>
+          </div>
+        </article>
+
+        <!-- Item 3 -->
+        <article class="service">
+          <button class="service-header" aria-expanded="false">
+            <span>Manuelle Therapie</span>
+            <span class="service-tag">+</span>
+          </button>
+          <div class="service-content" hidden>
+            <p>
+              Gelenk- und Weichteiltechniken zur Schmerzlinderung und
+              Beweglichkeitsverbesserung – inkl. Heimübungen.
+            </p>
+          </div>
+        </article>
+
+        <!-- Item 4 -->
+        <article class="service">
+          <button class="service-header" aria-expanded="false">
+            <span>CMD (Craniomandibuläre Dysfunktion)</span>
+            <span class="service-tag">+</span>
+          </button>
+          <div class="service-content" hidden>
+            <p>
+              Kieferbezogene Therapie bei Knirschen, Spannungskopfschmerz oder
+              Gesichts-/Nackenbeschwerden – interdisziplinär gedacht.
+            </p>
+          </div>
+        </article>
+
+        <!-- Item 5 -->
+        <article class="service">
+          <button class="service-header" aria-expanded="false">
+            <span>Manuelle Lymphdrainage</span>
+            <span class="service-tag">+</span>
+          </button>
+          <div class="service-content" hidden>
+            <p>
+              Sanfte Entstauungstherapie, z. B. nach OP/Verletzung, zur Reduktion
+              von Schwellungen und Schmerzen.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <p class="muted" style="margin-top:12px">
+        Hinweis: Liste dient als Beispiel; Abrechnung nach Verordnung/Kasse bzw.
+        Selbstzahlerleistungen individuell.
+      </p>
     </section>
   </main>
 
-  <footer>
-    <div class="container">© <span id="year"></span> MB Physiotherapie  · <a href="./recht.html">Impressum & Datenschutz</a></div>
-  </footer>
-
-  <script src="./js/main.js"></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="./js/main.js" defer></script>
+  <script>
+    // Nur sicherstellen, dass das Akkordeon initialisiert wird
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initServicesToggle === 'function') initServicesToggle();
+    });
+  </script>
 </body>
 </html>

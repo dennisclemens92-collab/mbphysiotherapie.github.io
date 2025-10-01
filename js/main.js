@@ -12,7 +12,7 @@ window.SITE = {
   calendar: { startHour: 8, endHour: 20, stepMinutes: 60 }
 };
 
-// ===== Theme =====
+// ===== Theme (kann bleiben, wirkt hier nicht störend) =====
 function setThemeFromPreference() {
   const root = document.documentElement;
   const stored = localStorage.getItem("theme");
@@ -118,10 +118,8 @@ function renderLogbook(){
   });
 }
 function deleteSubmission(id){
-  // Submission entfernen
   const subs=store.get("submissions",[]).filter(s=>s.id!==id);
   store.set("submissions", subs);
-  // Verknüpfte Termine entfernen
   const appts=store.get("appointments",[]).filter(a=>a.id!==id);
   store.set("appointments", appts);
 }
@@ -137,7 +135,7 @@ function exportSubmissionsCSV(){
   const subs=store.get("submissions",[]); if(!subs.length){ alert("Keine Anfragen zum Exportieren."); return; }
   const header=["id","timestamp","patient","vorname","nachname","email","telefon","status","symptome"];
   const rows=subs.map(s=>[s.id,s.ts,s.patient,s.vorname,s.nachname,s.email,s.tel,s.status,s.sympt.replace(/\r?\n/g," / ")]);
-  const csv=[header,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(";")).join("\r\n");
+  const csv=[...([header]),...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(";")).join("\r\n");
   const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"}); const url=URL.createObjectURL(blob);
   const a=document.createElement("a"); a.href=url; a.download="anfragen_logbuch.csv"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
 }
@@ -200,6 +198,7 @@ function renderCalendarHeaderWeek(start){
   const fmt=(d)=>d.toLocaleDateString(undefined,{day:"2-digit",month:"2-digit"});
   header.textContent = `KW ${kw} · ${fmt(start)} – ${fmt(end)}`;
 }
+
 function renderCalendarWeek(){
   const cal=document.querySelector("#calendar"); if(!cal) return;
   cal.innerHTML="";
@@ -218,8 +217,7 @@ function renderCalendarWeek(){
       const row=document.createElement("div"); row.className="slot-row";
       const timeSpan=document.createElement("span"); timeSpan.className="slot-time"; timeSpan.textContent=t;
       const match=appts.find(a=>a.date===dateISO && a.time===t);
-      const content=document.createElement("button"); // klickbar
-      content.type="button";
+      const content=document.createElement("button"); content.type="button";
       if(match){
         const s=subs.find(x=>x.id===match.id);
         content.className="badge appt-badge";
@@ -237,7 +235,6 @@ function renderCalendarWeek(){
     cell.appendChild(list); cal.appendChild(cell);
   }
 
-  // Badge-Klicks -> Modal
   cal.querySelectorAll(".appt-badge").forEach(btn=>{
     btn.addEventListener("click",()=>{
       const id=btn.dataset.id, date=btn.dataset.date, time=btn.dataset.time;
@@ -269,8 +266,7 @@ function renderCalendarMonth(){
       const row=document.createElement("div"); row.className="slot-row";
       const timeSpan=document.createElement("span"); timeSpan.className="slot-time"; timeSpan.textContent=t;
       const match=appts.find(a=>a.date===dateISO && a.time===t);
-      const content=document.createElement("button");
-      content.type="button";
+      const content=document.createElement("button"); content.type="button";
       if(match){
         const s=subs.find(x=>x.id===match.id);
         content.className="badge appt-badge";
@@ -349,44 +345,92 @@ function renderCalendar(){
   }
 }
 
-function initMitarbeiterbereich(){
-  const loginForm=document.querySelector("#login-form");
-  const app=document.querySelector("#staff-app");
-  const logoutBtn=document.querySelector("#logout-btn");
-  const exportBtn=document.querySelector("#export-csv");
-  const modeMonth=document.querySelector("#cal-mode-month");
-  const modeWeek=document.querySelector("#cal-mode-week");
+// ===== Header Burger =====
+function initHeaderNav() {
+  const btn = document.querySelector('.nav-toggle');
+  const drawer = document.getElementById('site-drawer');
+  const overlay = document.getElementById('site-overlay');
+  if (!btn || !drawer || !overlay) return;
 
-  if(!loginForm && !app) return;
+  const open = () => {
+    drawer.classList.add('open');
+    overlay.hidden = false;
+    document.body.classList.add('no-scroll');
+    btn.setAttribute('aria-expanded','true');
+    drawer.setAttribute('aria-hidden','false');
+  };
+  const close = () => {
+    drawer.classList.remove('open');
+    overlay.hidden = true;
+    document.body.classList.remove('no-scroll');
+    btn.setAttribute('aria-expanded','false');
+    drawer.setAttribute('aria-hidden','true');
+  };
 
-  if(!isAuthed()){
-    if(loginForm){
-      loginForm.addEventListener("submit",(e)=>{
-        e.preventDefault();
-        const user=loginForm.user.value.trim(), pass=loginForm.pass.value;
-        if(tryLogin(user,pass)) location.reload(); else alert("Login fehlgeschlagen.");
-      });
-    }
-    if(app) app.style.display="none";
-    return;
-  }
-
-  const loginCard=document.querySelector("#login-card"); if(loginCard) loginCard.style.display="none";
-  if(app) app.style.display="";
-
-  if(logoutBtn) logoutBtn.addEventListener("click",logout);
-  if(exportBtn) exportBtn.addEventListener("click",exportSubmissionsCSV);
-  if(modeMonth) modeMonth.addEventListener("click",()=>{ CalState.mode="month"; renderCalendar(); });
-  if(modeWeek) modeWeek.addEventListener("click",()=>{ CalState.mode="week"; renderCalendar(); });
-
-  renderLogbook(); renderSubmissionOptions(); setupCalendarAssign();
-
-  CalState.mode="week"; CalState.anchor=new Date(); renderCalendar();
+  btn.addEventListener('click', () => drawer.classList.contains('open') ? close() : open());
+  overlay.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 }
 
+// ===== Leistungen: Akkordeon =====
+function initServicesToggle() {
+  const wrap = document.querySelector(".services");
+  if (!wrap) return;
+
+  document.querySelectorAll(".service").forEach((item, i) => {
+    const btn = item.querySelector(".service-header");
+    const panel = item.querySelector(".service-content");
+    const tag = item.querySelector(".service-tag");
+    if (!btn || !panel) return;
+    const id = panel.id || `service-panel-${i + 1}`;
+    panel.id = id;
+    btn.setAttribute("aria-controls", id);
+    btn.setAttribute("aria-expanded", "false");
+    if (tag) tag.textContent = "+";
+  });
+
+  wrap.addEventListener("click", (e) => {
+    const btn = e.target.closest(".service-header");
+    if (!btn) return;
+    const item = btn.closest(".service");
+    const panel = item.querySelector(".service-content");
+    const tag = item.querySelector(".service-tag");
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+
+    if (!expanded) {
+      btn.setAttribute("aria-expanded", "true");
+      panel.hidden = false;
+      panel.classList.add("open");
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      panel.addEventListener("transitionend", function handler() {
+        panel.style.maxHeight = "none";
+        panel.removeEventListener("transitionend", handler);
+      }, { once: true });
+      if (tag) tag.textContent = "–";
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        btn.setAttribute("aria-expanded", "false");
+        panel.classList.remove("open");
+        panel.style.maxHeight = "0px";
+      });
+      panel.addEventListener("transitionend", function handler() {
+        panel.hidden = true;
+        panel.style.maxHeight = "";
+        panel.removeEventListener("transitionend", handler);
+      }, { once: true });
+      if (tag) tag.textContent = "+";
+    }
+  });
+}
+
+// ===== App-Start =====
 document.addEventListener("DOMContentLoaded",()=>{
   setThemeFromPreference(); applyHeroAndLogo(); markActiveNav(); setupThemeToggle();
   setupKontaktForm(); initMitarbeiterbereich();
+  initHeaderNav();
+  initServicesToggle();
+
   if(window.matchMedia){
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{ setThemeFromPreference(); applyHeroAndLogo(); });
   }

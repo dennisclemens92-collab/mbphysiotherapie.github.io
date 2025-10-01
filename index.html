@@ -7,24 +7,24 @@
   <meta name="description" content="Moderne Physiotherapie. Individuelle Behandlung, persönliche Betreuung." />
   <link rel="stylesheet" href="./css/style.css" />
 </head>
+
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <img src="./Assets/Logo.png" alt="Praxis Logo" class="logo" />
-        <strong>MB Physiotherapie </strong>
-      </div>
-      <nav class="nav-links">
-        <a data-href="./index.html" href="./index.html">Start</a>
-        <a data-href="./leistungen.html" href="./leistungen.html">Leistungen</a>
-        <a data-href="./praxis.html" href="./praxis.html">Praxis</a>
-        <a data-href="./kontakt.html" href="./kontakt.html">Termin & Kontakt</a>
-        <a data-href="./team.html" href="./team.html">Team</a>
-        <a data-href="./recht.html" href="./recht.html">Impressum & Datenschutz</a>
-      </nav>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Theme umschalten">Theme: auto</button>
-    </div>
-  </header>
+  <div id="site-header"></div>
+  <script>
+    fetch("./header.html").then(r=>r.text()).then(html=>{
+      const anchor = document.getElementById("site-header");
+      anchor.insertAdjacentHTML("afterend", html);
+      anchor.remove();
+      if (typeof initHeaderNav === "function") initHeaderNav();
+      if (typeof highlightActiveLink === "function") highlightActiveLink();
+    });
+  </script>
+  <!-- <main> … -->
+
+
+
+
+
 
   <main>
     <section class="hero" id="hero-start" role="img" aria-label="Praxis Hintergrundbild">
