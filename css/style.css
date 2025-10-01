@@ -13,17 +13,6 @@
   --pad: clamp(16px, 2vw, 24px);
 }
 
-[data-theme="dark"],
-[data-theme="auto"].prefers-dark {
-  --bg: #0b1220;
-  --fg: #e2e8f0;
-  --muted: #94a3b8;
-  --brand: #22d3ee;
-  --brand-2: #34d399;
-  --surface: #111827;
-  --border: color-mix(in oklab, var(--fg), transparent 84%);
-}
-
 /* ===== Base ===== */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
