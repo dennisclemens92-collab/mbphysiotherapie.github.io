@@ -1,8 +1,8 @@
 /* ===== Design Tokens (Flyer-Farben) ===== */
 :root {
-  --page-bg: #f1e8e0;    /* Hintergrund wie Flyer */
+  --page-bg: #eae6df;    /* Hintergrund wie Flyer */
   --text:    #0f172a;    /* Haupt-Text */
-  --muted:   #475569;    /* Sekundär-Text */
+  --muted:   #737373;    /* Sekundär-Text */
   --accent:  #c79a97;    /* Rosé-Akzent (Logo) */
   --link:    #e07a5f;    /* Terracotta Primary-Button */
   --link-2:  #d1664d;    /* Hover/Verlauf */
