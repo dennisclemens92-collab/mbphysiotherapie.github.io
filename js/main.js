@@ -4,7 +4,7 @@ window.SITE = {
   email: { method: "none", to: "Dennis.Clemens92@gmail.com" },
   pages: {
     startHeroLight: "./Assets/BackgroundHell.jpg",
-    startHeroDark: "./Assets/BackgroundDark.jpg",
+    startHeroDark: "./Assets/BackgroundHell.jpg",
     kontaktHero: "./Assets/BackgroundAnmeldung.jpg",
     logo: "./Assets/Logo.png"
   },
