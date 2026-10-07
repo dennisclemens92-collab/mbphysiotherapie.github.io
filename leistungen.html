@@ -1,35 +1,148 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-theme="auto">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Leistungen – MB Physiotherapie</title>
   <link rel="stylesheet" href="./css/style.css" />
+  
+  <style>
+    .service-slider-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px; /* Begrenzt die maximale Breite für eine edle Optik */
+      margin: 3rem auto 4rem auto; /* Mittig zentriert mit schönem Abstand oben und unten */
+      aspect-ratio: 4 / 3; /* Geändert auf 4:3 für deutlich mehr Höhe im Bild */
+      overflow: hidden;
+      border-radius: 16px; /* Etwas rundere Ecken für einen modernen Look */
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* Weicher Schatten für Tiefe */
+      background-color: #f5f5f5; /* Platzhalter-Hintergrund */
+    }
+
+    .service-slider-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%; /* Verschiebt den Fokus leicht nach oben, schützt die Köpfe vor dem Abschneiden */
+      opacity: 0;
+      transform: scale(1.05); /* Leichter Zoom-Effekt für mehr Dynamik */
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; /* Sehr weicher Übergang */
+      z-index: 0;
+    }
+
+    /* Sichtbares Bild */
+    .service-slider-container img.active {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 1;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.7);
+      color: #333;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: background 0.3s, transform 0.2s;
+      user-select: none;
+      backdrop-filter: blur(4px); /* Moderner Milchglas-Effekt */
+    }
+    .slider-btn:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .slider-btn.prev { left: 20px; }
+    .slider-btn.next { right: 20px; }
+
+    .slider-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 2;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .dot:hover {
+      transform: scale(1.2);
+    }
+    .dot.active {
+      background: white;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      transform: scale(1.2); /* Aktiver Punkt ist minimal größer */
+    }
+  </style>
 </head>
 <body>
 
-
   <div id="site-header"></div>
   <script>
-    fetch("/header.html").then(r=>r.text()).then(html=>{
-      const anchor=document.getElementById("site-header");
-      anchor.insertAdjacentHTML("afterend", html);
-      anchor.remove();
-      if (typeof initHeaderNav==='function') initHeaderNav();
-    });
+    try {
+      fetch("/header.html").then(r=>r.text()).then(html=>{
+        const anchor=document.getElementById("site-header");
+        if(anchor) {
+          anchor.insertAdjacentHTML("afterend", html);
+          anchor.remove();
+        }
+        if (typeof initHeaderNav==='function') initHeaderNav();
+      }).catch(e => console.warn("Header Fetch fehlgeschlagen (in der Vorschau normal):", e));
+    } catch (e) {
+      console.warn("URL Parsing Fehler (in der Vorschau normal):", e);
+    }
   </script>
   
-
   <main class="container">
     <section>
-      <h2>Leistungen</h2>
-      <p class="muted">Hier finden Sie alle Angebote und Leistungen die Sie bei mir buchen können</p>
+      <h2>Meine Behandlungsschwerpunkte</h2>
+      <p class="muted">
+        Jede Behandlung beginnt mit einem Blick auf deine individuelle Situation.
+        Je nach Befund kann ich unterschiedliche physiotherapeutische Ansätze miteinander verbinden.
+      </p>
+
+      <div class="service-slider-container" id="behandlungs-slider">
+        <!-- Bilder: Passe hier einfach die src an! -->
+        <img src="./Assets/M1.png" alt="Physiotherapeutische Behandlung am Patienten" class="slide active" />
+        <img src="./Assets/M2.png" alt="Manuelle Therapie" class="slide" />
+        <img src="./Assets/BackgroundHell.jpg" alt="Gemeinsame Übungsausführung" class="slide" />
+        
+        <!-- Steuerungselemente -->
+        <button class="slider-btn prev" aria-label="Vorheriges Bild">&#10094;</button>
+        <button class="slider-btn next" aria-label="Nächstes Bild">&#10095;</button>
+
+        <!-- Navigations-Punkte -->
+        <div class="slider-dots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+        </div>
+      </div>
 
       <div class="services">
         <!-- Item 1 -->
         <article class="service">
           <button class="service-header" aria-expanded="false">
-            <span>Physiotherapie</span>
+            <span>Physiotherapie - Das Allgemeine.</span>
             <span class="service-tag">+</span>
           </button>
           <div class="service-content" hidden>
@@ -45,13 +158,15 @@
         <!-- Item 2 -->
         <article class="service">
           <button class="service-header" aria-expanded="false">
-            <span>Krankengymnastik</span>
+            <span>Krankengymnastik - Bewegung gezielt einsetzen.</span>
             <span class="service-tag">+</span>
           </button>
           <div class="service-content" hidden>
             <p>
-              Die Krankengymnastik ist eine aktive Therapieform, bei der gezielte Übungen Beweglichkeit, Kraft, Haltung und Koordination verbessern.
-              Sie unterstützt die Heilung nach Verletzungen, Operationen oder bei chronischen Beschwerden und kann Fehlhaltungen korrigieren.
+              Krankengymnastik bedeutet für mich nicht, dir einfach eine Reihe von Übungen mitzugeben.
+              Übungen müssen zu deinem Körper, deinen Beschwerden und deinem Alltag passen.
+              Deshalb können je nach Ziel Beweglichkeit, Kraft, Koordination, Stabilität oder Bewegungsqualität im Mittelpunkt stehen.
+              Du sollst nicht nur Übungen ausführen. Du sollst verstehen, warum du sie machst und was sie in deinem Körper verändern sollen.
             </p>
           </div>
         </article>
@@ -59,14 +174,16 @@
         <!-- Item 3 -->
         <article class="service">
           <button class="service-header" aria-expanded="false">
-            <span>Manuelle Therapie</span>
+            <span>Manuelle Therapie - Mein fachlicher Schwerpunkt.</span>
             <span class="service-tag">+</span>
           </button>
           <div class="service-content" hidden>
             <p>
-             Die Manuelle Therapie ist eine spezielle Technik, die Funktionsstörungen des Bewegungsapparats analysiert und behandelt.
-             Durch präzise Handgriffe werden Blockaden gelöst, Gelenke mobilisiert und Schmerzen gelindert.
-             Hierbei steht die individuelle Anpassung der Behandlung an Ihre Beschwerden im Vordergrund.
+             Die Manuelle Therapie ist für mich weit mehr als das Mobilisieren eines Gelenks.
+            Sie beginnt mit einem präzisen Befund: Wie bewegt sich eine Struktur? Wo bestehen Einschränkungen?
+            Welche Zusammenhänge können zu den Beschwerden beitragen?
+            Auf dieser Grundlage kommen gezielte manuelle Techniken zum Einsatz, ergänzt durch aktive Bewegung und individuell abgestimmte Übungen.
+            Mein Ziel ist nicht nur eine kurzfristige Veränderung. Ich möchte verstehen, was deinen Körper gerade einschränkt - und gemeinsam mit dir daran arbeiten, seine Funktion wieder zu verbessern.
             </p>
           </div>
         </article>
@@ -74,14 +191,14 @@
         <!-- Item 4 -->
         <article class="service">
           <button class="service-header" aria-expanded="false">
-            <span>CMD (Craniomandibuläre Dysfunktion)</span>
+            <span>CMD - Wenn Kiefer, Kopf und Nacken zusammenspielen.</span>
             <span class="service-tag">+</span>
           </button>
           <div class="service-content" hidden>
             <p>
-             Die craniomandibuläre Dysfunktion (CMD) beschreibt Fehlfunktionen im Zusammenspiel von Kiefergelenken, Kaumuskulatur und Halswirbelsäule.
-             Typische Beschwerden sind Kieferknacken, Kopfschmerzen, Verspannungen im Nacken, Schwindel oder Ohrgeräusche.
-             Mit gezielten Techniken können Funktionsstörungen reduziert, muskuläre Dysbalancen ausgeglichen und Schmerzen gelindert werden.
+              Kiefergelenk, Kaumuskulatur, Halswirbelsäule und angrenzende Strukturen stehen in engem funktionellem Zusammenhang.
+              Beschwerden können sich deshalb beispielsweise als Kieferprobleme, Kopfschmerzen, Nackenbeschwerden oder muskuläre Spannungen zeigen.
+              Bei der Behandlung betrachte ich diese Strukturen nicht isoliert, sondern im funktionellen Zusammenhang.
             </p>
           </div>
         </article>
@@ -89,14 +206,15 @@
         <!-- Item 5 -->
         <article class="service">
           <button class="service-header" aria-expanded="false">
-            <span>Manuelle Lymphdrainage</span>
+            <span>Manuelle Lymphdrainage - Sanft. Rhythmisch. Individuell.</span>
             <span class="service-tag">+</span>
           </button>
           <div class="service-content" hidden>
             <p>
-              Die Manuelle Lymphdrainage dient dem Abtransport von Flüssigkeit aus dem Gewebe.
-              Sie wird bei Schwellungen, nach Verletzungen, Operationen, bei Lymphödemen oder Lipödemen eingesetzt.
-              Mit sanften, rhythmischen Griffen wird das Lymphsystem unterstützt, wodurch Schwellungen und Spannungsgefühle reduziert und die Heilung gefördert werden.
+             Die Manuelle Lymphdrainage ist eine besonders sanfte Behandlungstechnik zur Unterstützung des Lymphabflusses.
+             Sie kann unter anderem bei Schwellungen, Lymphödemen, Lipödemen sowie nach Verletzungen oder Operationen eingesetzt werden.
+             Mit rhythmischen, gezielten Grifftechniken wird das Gewebe entlastet und der natürliche Abtransport von Flüssigkeit unterstützt.
+             Dabei steht nicht nur die Schwellung im Mittelpunkt, sondern immer auch dein individuelles Beschwerdebild und dein Wohlbefinden.
             </p>
           </div>
         </article>
@@ -110,9 +228,70 @@
 
   <script src="./js/main.js" defer></script>
   <script>
-    // Nur sicherstellen, dass das Akkordeon initialisiert wird
+    // Akkordeon Initialisierung (Dein bestehender Code)
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof initServicesToggle === 'function') initServicesToggle();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const slides = document.querySelectorAll('.service-slider-container .slide');
+      const dots = document.querySelectorAll('.service-slider-container .dot');
+      const prevBtn = document.querySelector('.service-slider-container .slider-btn.prev');
+      const nextBtn = document.querySelector('.service-slider-container .slider-btn.next');
+      let currentIndex = 0;
+      let slideTimer;
+
+      // Wenn weniger als 2 Bilder, verstecke die Steuerung
+      if(slides.length <= 1) {
+        if(prevBtn) prevBtn.style.display = 'none';
+        if(nextBtn) nextBtn.style.display = 'none';
+        const dotContainer = document.querySelector('.service-slider-container .slider-dots');
+        if(dotContainer) dotContainer.style.display = 'none';
+        return;
+      }
+
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        if (index >= slides.length) currentIndex = 0;
+        if (index < 0) currentIndex = slides.length - 1;
+
+        slides[currentIndex].classList.add('active');
+        dots[currentIndex].classList.add('active');
+      }
+
+      function nextSlide() {
+        currentIndex++;
+        showSlide(currentIndex);
+      }
+
+      function resetTimer() {
+        clearInterval(slideTimer);
+        slideTimer = setInterval(nextSlide, 3000);
+      }
+
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetTimer();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex--;
+        showSlide(currentIndex);
+        resetTimer();
+      });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          currentIndex = parseInt(e.target.getAttribute('data-index'));
+          showSlide(currentIndex);
+          resetTimer();
+        });
+      });
+
+      // Start the autoplay timer
+      slideTimer = setInterval(nextSlide, 6000);
     });
   </script>
 </body>

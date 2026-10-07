@@ -6,40 +6,149 @@
   <title>Praxis – MB Physiotherapie </title>
   <meta name="description" content="Einblick in unsere Praxisräume." />
   <link rel="stylesheet" href="./css/style.css" />
+  
+  <style>
+    /* Slider Container */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3; /* Hält die Box in einem schönen Foto-Format */
+      overflow: hidden;
+      border-radius: 12px; /* Rundungen passend zur Karte */
+      background-color: #f5f5f5; /* Platzhalter-Hintergrund */
+    }
+
+    /* Bilder im Slider */
+    .slider-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Füllt das Format perfekt aus, ohne zu verzerren */
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out; /* Weicher Übergang */
+      z-index: 0;
+    }
+
+    /* Sichtbares Bild */
+    .slider-container img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    /* Pfeil-Buttons */
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .slider-btn:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+    .slider-btn.prev { left: 15px; }
+    .slider-btn.next { right: 15px; }
+
+    /* Navigations-Punkte */
+    .slider-dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .dot:hover {
+      transform: scale(1.2);
+    }
+    .dot.active {
+      background: white;
+      box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    }
+  </style>
 </head>
 <body>
   <div id="site-header"></div>
   <script>
-    fetch("./header.html").then(r=>r.text()).then(html=>{
-      const anchor = document.getElementById("site-header");
-      anchor.insertAdjacentHTML("afterend", html);
-      anchor.remove();
-      if (typeof initHeaderNav === "function") initHeaderNav();
-      if (typeof highlightActiveLink === "function") highlightActiveLink();
-    });
+    try {
+      fetch("./header.html").then(r=>r.text()).then(html=>{
+        const anchor = document.getElementById("site-header");
+        if(anchor) {
+          anchor.insertAdjacentHTML("afterend", html);
+          anchor.remove();
+        }
+        if (typeof initHeaderNav === "function") initHeaderNav();
+        if (typeof highlightActiveLink === "function") highlightActiveLink();
+      }).catch(e => console.warn("Header Fetch fehlgeschlagen (in der Vorschau normal):", e));
+    } catch (e) {
+      console.warn("URL Parsing Fehler (in der Vorschau normal):", e);
+    }
   </script>
-  <!--<main> … -->
 
-  <main class="container">
+  <main class="container" style="margin-top: 3rem; margin-bottom: 3rem;">
     <section class="grid grid-2">
+      <!-- Linke Spalte: Text -->
       <div>
-        <h1>Unsere Praxis</h1>
+        <h1>Meine Praxis</h1>
         <p>
-          Unsere neue Praxis steht für kurze Wege, klare Kommunikation und eine ruhige Atmosphäre.
-          Die Behandlungsräume sind modern ausgestattet und auf eine individuelle Therapie ausgerichtet.<p>
+          Meine neue Praxis steht für kurze Wege, klare Kommunikation und eine ruhige Atmosphäre.
+          Die Behandlungsräume sind modern ausgestattet und auf eine individuelle Therapie ausgerichtet.
+        </p>
             
-          </p>
-          <strong>Bitte beachten Sie: </strong> Die Praxis ist aktuell <strong>nicht barrierefrei</strong>. Der Zugang erfolgt über
-          mehrere Stufen, ein Aufzug ist derzeit nicht vorhanden. Wir helfen Ihnen gern vor Ort – melde Sie sich
-          vorab, wenn Sie Unterstützung beim Zugang benötigst.
+        <p>
+          <strong>Bitte beachten Sie:</strong> Die Praxis ist aktuell <strong>nicht barrierefrei</strong>. Der Zugang erfolgt über
+          mehrere Stufen, ein Aufzug ist derzeit nicht vorhanden. Wir helfen Ihnen gern vor Ort – melden Sie sich
+          vorab, wenn Sie Unterstützung beim Zugang benötigen.
         </p>
         <p>
           Parkmöglichkeiten befinden sich in der Umgebung. Öffentliche Verkehrsmittel sind fußläufig erreichbar.
           Wir arbeiten mit Terminvergabe, um Wartezeiten zu vermeiden.
         </p>
       </div>
+
+      <!-- Rechte Spalte: Bilder-Slider -->
       <div>
-        <img src="./Assets/Praxis.jpg" alt="Blick in die Praxisräume" class="card" />
+        <div class="slider-container card" id="praxis-slider">
+          
+          <!-- Bilder (Passe hier einfach die src an, falls du mehr Bilder hast) -->
+          <img src="./Assets/Praxis.jpg" alt="Blick in den Empfangsbereich" class="slide active" />
+          <img src="./Assets/Praxis2.png" alt="Behandlungsraum 1" class="slide" />
+          <img src="./Assets/Praxis3.png" alt="Behandlungsraum 2" class="slide" />
+          
+          <!-- Steuerungselemente -->
+          <button class="slider-btn prev" aria-label="Vorheriges Bild">&#10094;</button>
+          <button class="slider-btn next" aria-label="Nächstes Bild">&#10095;</button>
+
+          <!-- Navigations-Punkte (Müssen exakt so viele sein wie Bilder) -->
+          <div class="slider-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -49,6 +158,75 @@
   </footer>
 
   <script src="./js/main.js"></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Slider Logik
+    document.addEventListener("DOMContentLoaded", () => {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.dot');
+      const prevBtn = document.querySelector('.slider-btn.prev');
+      const nextBtn = document.querySelector('.slider-btn.next');
+      let currentIndex = 0;
+      let slideTimer; // Neu: Variable für den Timer
+
+      // Wenn es weniger als 2 Bilder gibt, Steuerung verstecken
+      if(slides.length <= 1) {
+        if(prevBtn) prevBtn.style.display = 'none';
+        if(nextBtn) nextBtn.style.display = 'none';
+        document.querySelector('.slider-dots').style.display = 'none';
+        return;
+      }
+
+      function showSlide(index) {
+        // Alte aktive Klassen entfernen
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Index-Grenzen abfangen (Loop)
+        if (index >= slides.length) currentIndex = 0;
+        if (index < 0) currentIndex = slides.length - 1;
+
+        // Neue aktive Klassen setzen
+        slides[currentIndex].classList.add('active');
+        dots[currentIndex].classList.add('active');
+      }
+
+      // Neu: Hilfsfunktion für das nächste Bild
+      function nextSlide() {
+        currentIndex++;
+        showSlide(currentIndex);
+      }
+
+      // Neu: Hilfsfunktion, um den Timer beim manuellen Klicken zurückzusetzen
+      function resetTimer() {
+        clearInterval(slideTimer);
+        slideTimer = setInterval(nextSlide, 3000);
+      }
+
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetTimer(); // Timer zurücksetzen
+      });
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex--;
+        showSlide(currentIndex);
+        resetTimer(); // Timer zurücksetzen
+      });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+          currentIndex = parseInt(e.target.getAttribute('data-index'));
+          showSlide(currentIndex);
+          resetTimer(); // Timer zurücksetzen
+        });
+      });
+
+      // Neu: Automatischer Start des Sliders (3000 Millisekunden = 3 Sekunden)
+      slideTimer = setInterval(nextSlide, 3000);
+    });
+  </script>
 </body>
 </html>

@@ -6,32 +6,117 @@
   <title>MB Physiotherapie  – Start</title>
   <meta name="description" content="Moderne Physiotherapie. Individuelle Behandlung, persönliche Betreuung." />
   <link rel="stylesheet" href="./css/style.css" />
+  
+  <style>
+    /* Styling für den neuen Text-Abschnitt */
+    .intro-section {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    .intro-section .lead {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .intro-section .core-values {
+      list-style: none;
+      padding: 0;
+      margin: 2.5rem 0;
+      border-left: 4px solid currentColor;
+      padding-left: 1.5rem;
+      opacity: 0.9;
+    }
+    .intro-section .core-values li {
+      margin-bottom: 0.75rem;
+    }
+    .intro-section .welcome-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    /* Styling für die Akkordeon-Karten */
+    .accordion-card {
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .accordion-card:hover {
+      transform: translateY(-2px);
+    }
+    .accordion-card h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0; /* Standardmäßig kein Abstand nach unten */
+      transition: margin-bottom 0.3s ease;
+    }
+    /* Plus/Minus Icon */
+    .accordion-card h3::after {
+      content: '+';
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1;
+      transition: transform 0.3s ease;
+    }
+    .accordion-card.is-open h3::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+    
+    /* Moderne Grid-Animation für das weiche Aufklappen */
+    .accordion-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    .accordion-content-inner {
+      overflow: hidden;
+    }
+    
+    /* Geöffneter Zustand der Karte */
+    .accordion-card.is-open .accordion-content {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    .accordion-card.is-open h3 {
+      margin-bottom: 1rem;
+    }
+
+    /* Verhindert, dass alle Karten automatisch gleich groß gezogen werden */
+    .accordion-grid {
+      align-items: start;
+    }
+  </style>
 </head>
 
 <body>
   <div id="site-header"></div>
   <script>
-    fetch("./header.html").then(r=>r.text()).then(html=>{
-      const anchor = document.getElementById("site-header");
-      anchor.insertAdjacentHTML("afterend", html);
-      anchor.remove();
-      if (typeof initHeaderNav === "function") initHeaderNav();
-      if (typeof highlightActiveLink === "function") highlightActiveLink();
-    });
+    try {
+      fetch("./header.html").then(r=>r.text()).then(html=>{
+        const anchor = document.getElementById("site-header");
+        if (anchor) {
+          anchor.insertAdjacentHTML("afterend", html);
+          anchor.remove();
+        }
+        if (typeof initHeaderNav === "function") initHeaderNav();
+        if (typeof highlightActiveLink === "function") highlightActiveLink();
+      }).catch(e => console.warn("Header Fetch fehlgeschlagen (in der Vorschau normal):", e));
+    } catch (e) {
+      console.warn("URL Parsing Fehler (in der Vorschau normal):", e);
+    }
   </script>
-  <!-- <main> … -->
-
-
-
-
-
 
   <main>
     <section class="hero" id="hero-start" role="img" aria-label="Praxis Hintergrundbild">
       <div class="container inner">
         <h1>Individuell. Ganzheitlich. Wirksam.</h1>
-        <h3>(Diese Seite befindet sich im Aufbau) </h3>
-        <p class="muted">Individuelle Behandlung, moderne Methoden, persönliche Betreuung.</p>
+        <p class="muted">Physiotherapie, die Zusammenhänge versteht</p>
+        
         <div class="actions">
           <a class="btn" href="./kontakt.html">Termin anfragen</a>
           <a class="btn secondary" href="./leistungen.html">Leistungen ansehen</a>
@@ -39,27 +124,87 @@
       </div>
     </section>
 
+    <section class="container intro-section">
+      <p class="lead">Beschwerden entstehen selten isoliert.</p>
+      <p>Ein schmerzendes Gelenk, eine eingeschränkte Bewegung oder eine verspannte Muskulatur sind häufig Teil eines größeren Zusammenspiels. Genau dort setzt meine Arbeit an.</p>
+      <p>Als Physiotherapeutin mit Schwerpunkt auf orthopädischer Physiotherapie und Manueller Therapie betrachte ich nicht nur die Stelle, an der Beschwerden auftreten. Ich möchte verstehen, wie dein Körper funktioniert, wo Bewegung eingeschränkt ist, welche Strukturen beteiligt sind und welche Faktoren deine Beschwerden beeinflussen.</p>
+      <p>Dabei verbinde ich präzise Befundung und Manuelle Therapie mit einem ganzheitlichen Blick auf den Menschen.</p>
+      
+      <ul class="core-values">
+        <li><strong>Individuell</strong>, weil jeder Körper anders ist.</li>
+        <li><strong>Ganzheitlich</strong>, weil Beschwerden Zusammenhänge haben.</li>
+        <li><strong>Wirksam</strong>, weil Therapie für mich einen nachvollziehbaren und sinnvollen Zweck haben soll.</li>
+      </ul>
+      
+      <p class="welcome-text">Willkommen bei MB Physiotherapie.</p>
+    </section>
+
     <section class="container">
       <h2>Warum unsere Praxis?</h2>
-      <div class="grid grid-3">
-        <article class="card"><h3>Individuelle Therapie</h3><p class="muted">Behandlung auf Augenhöhe – wir hören zu und handeln zielgerichtet.</p></article>
-        <article class="card"><h3>Aktuelle Methoden</h3><p class="muted">Evidenzbasiert & sportnah – sinnvoll statt modisch.</p></article>
-        <article class="card"><h3>Kurze Wege</h3><p class="muted">Klare Terminführung, verlässliche Kommunikation.</p></article>
+      <div class="grid grid-3 accordion-grid">
+        
+        <article class="card accordion-card">
+          <h3>MEINE THERAPEUTISCHE HALTUNG</h3>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              <p class="muted"><strong>Sinnvoll statt modisch.</strong><br>
+              Ich bin überzeugt davon, dass gute Physiotherapie nicht dadurch entsteht, möglichst viele Methoden anzubieten.
+              Entscheidend ist, welcher therapeutische Ansatz für den jeweiligen Menschen sinnvoll ist.
+              Deshalb orientiere ich mich an einem fundierten Befund und an dem, was dein Körper tatsächlich zeigt.<br><br>
+              Ich möchte dir nicht einfach eine Behandlung "geben". Ich möchte gemeinsam mit dir verstehen: Was passiert in deinem Körper? Warum passiert es? Und was können wir konkret verändern?<br>
+              Dabei arbeite ich präzise und fachlich fundiert, ohne den Menschen hinter dem Befund aus dem Blick zu verlieren.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card accordion-card">
+          <h3>PSYCHOSOMATISCHE KOHÄRENZ</h3>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              <p class="muted"><strong>Der Körper denkt nicht in Schubladen.</strong><br>
+              Körper und Psyche sind keine voneinander getrennten Systeme.
+              Stress, Belastung, Emotionen und die individuelle Lebenssituation können beeinflussen, wie wir Schmerzen wahrnehmen, wie wir uns bewegen und wie unser Körper auf Belastungen reagiert.<br><br>
+              Das bedeutet nicht, körperliche Beschwerden zu "psychologisieren".
+              Schmerz ist real. Bewegungseinschränkungen sind real. Körperliche Veränderungen sind real. Aber der Körper reagiert immer im Kontext des Menschen, zu dem er gehört.<br><br>
+              Diese Zusammenhänge interessieren mich besonders in meiner manuellen und orthopädischen Arbeit.
+              Ich möchte deshalb nicht vorschnell sagen: „Das ist nur das Gelenk." oder „Das ist nur die Muskulatur."
+              Sondern fragen: Was gehört hier alles zusammen?</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card accordion-card">
+          <h3>PERSÖNLICHER ANSPRUCH</h3>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              <p class="muted"><strong>Ich möchte nicht möglichst viel behandeln. Ich möchte das Richtige behandeln.</strong><br><br>
+              Eine gute physiotherapeutische Behandlung braucht für mich drei Dinge: fachliches Wissen, einen genauen Blick und echtes Zuhören.<br><br>
+              Genau dafür steht MB Physiotherapie.</p>
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
 
     <section class="container">
+      <!-- HIER WIRD AUSGEKLAMMERT: 
       <h2>Leistungen (Auszug)</h2>
+      
+      
       <div class="grid grid-3">
         <article class="card"><h3>Manuelle Therapie</h3><p class="muted">Gezielte Mobilisation und Schmerzreduktion.</p></article>
         <article class="card"><h3>Lymphdrainage</h3><p class="muted">Sanfte Entstauungstherapie bei Ödemen.</p></article>
         <article class="card"><h3>Sportphysiotherapie</h3><p class="muted">Rehabilitation & Leistungssteigerung.</p></article>
       </div>
-      <p><a class="btn" href="./leistungen.html">Zur Leistungsübersicht</a></p>
+      -->
+      
+      <!-- ABSTAND HINZUGEFÜGT: style="margin-top: 2rem;" sorgt für einen schönen optischen Absatz -->
+      <p style="margin-top: 2rem;"><a class="btn" href="./leistungen.html">Zur Leistungsübersicht</a></p>
     </section>
 
     <section class="container">
-      <h2>Das Team</h2>
+      <h2>Über mich</h2>
       <div class="grid grid-3">
         <article class="card">
           <img src="./Assets/Michelle.jpg" alt="Michelle – Inhaberin" style="border-radius:12px; aspect-ratio:4/5; object-fit:cover;">
@@ -67,7 +212,8 @@
           <p class="muted">Inhaberin & Physiotherapeutin</p>
         </article>
       </div>
-      <p><a class="btn" href="./team.html">Lernen Sie uns kennen</a></p>
+
+      <p style="margin-top: 2rem;"><a class="btn" href="./team.html">Lernen Sie mich kennen</a></p>
     </section>
   </main>
 
@@ -77,5 +223,19 @@
 
   <script src="./js/main.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  
+  <script>
+    // Akkordeon Logik initialisieren
+    document.addEventListener("DOMContentLoaded", () => {
+      const accordionCards = document.querySelectorAll('.accordion-card');
+      
+      accordionCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Klasse "is-open" umschalten
+          card.classList.toggle('is-open');
+        });
+      });
+    });
+  </script>
 </body>
 </html>

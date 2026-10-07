@@ -6,20 +6,57 @@
   <title>Termin & Kontakt – MB Physiotherapie </title>
   <meta name="description" content="Termin anfragen oder Kontakt aufnehmen." />
   <link rel="stylesheet" href="./css/style.css" />
+  
+  <style>
+    /* Styling für den Ablauf des ersten Termins */
+    .process-section {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    .process-section .lead {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .process-section .process-list {
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0;
+      border-left: 4px solid currentColor;
+      padding-left: 1.5rem;
+      opacity: 0.9;
+    }
+    .process-section .process-list li {
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+    .process-section .process-conclusion {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
+
 <body>
   <div id="site-header"></div>
   <script>
-    fetch("./header.html").then(r=>r.text()).then(html=>{
-      const anchor = document.getElementById("site-header");
-      anchor.insertAdjacentHTML("afterend", html);
-      anchor.remove();
-      if (typeof initHeaderNav === "function") initHeaderNav();
-      if (typeof highlightActiveLink === "function") highlightActiveLink();
-    });
+    try {
+      fetch("./header.html").then(r=>r.text()).then(html=>{
+        const anchor = document.getElementById("site-header");
+        if (anchor) {
+          anchor.insertAdjacentHTML("afterend", html);
+          anchor.remove();
+        }
+        if (typeof initHeaderNav === "function") initHeaderNav();
+        if (typeof highlightActiveLink === "function") highlightActiveLink();
+      }).catch(e => console.warn("Header Fetch fehlgeschlagen (in der Vorschau normal):", e));
+    } catch (e) {
+      console.warn("URL Parsing Fehler (in der Vorschau normal):", e);
+    }
   </script>
-  <!-- dein <main> … -->
-
 
   <main>
     <section class="hero" id="hero-kontakt" role="img" aria-label="Anmeldung Hintergrund">
@@ -29,25 +66,46 @@
       </div>
     </section>
 
-<section class="container">
-  <div class="card card--full card-contact">
-    <h2>Kontaktdaten</h2>
-    <strong>Adresse:</strong>
-    <address>
-  MB Physiotherapie<br>
-  Michelle Böhme<br> 
-  Dorfstraße 72<br>
-  41366 Schwalmtal
-</address><br>
-    <p><strong>Mobil:</strong> +49 15224810961</p>
-    <p><strong>E-Mail:</strong> michelleboehme@mbphysiotherapie.de </p>
-    <p><strong>Öffnungszeiten:</strong> <br> Montag bis Samstags nach Terminabsprache </p>
-  
-    <!-- <p class="helper">Hinweis: Mit dem Absenden des Formulars akzeptierst du unsere Datenschutzhinweise</p> -->
-      </p>
-  </div>
-</section>
+    <!-- NEUER ABSCHNITT: Ablauf erster Termin -->
+    <section class="container process-section">
+      <p class="lead">Ankommen. Erzählen. Befunden. Behandeln.</p>
+      
+      <p>Dein erster Termin beginnt nicht mit einer Standardbehandlung. Zunächst möchte ich wissen, was dich zu mir führt:</p>
+      
+      <ul class="process-list">
+        <li>Was genau ist dein Problem?</li>
+        <li>Seit wann besteht es?</li>
+        <li>Was verschlechtert oder verbessert deine Beschwerden?</li>
+        <li>Welche Bewegungen sind eingeschränkt?</li>
+        <li>Was möchtest du wieder können?</li>
+      </ul>
+      
+      <p>Anschließend erfolgt eine individuelle physiotherapeutische Befundung.<br>
+      Auf dieser Grundlage besprechen wir gemeinsam, welche Behandlung sinnvoll ist und welche Ziele wir verfolgen.</p>
+      
+      <p class="process-conclusion">Du sollst meine Praxis nicht nur mit einer Behandlung verlassen, sondern mit einem besseren Verständnis für deinen eigenen Körper.</p>
+    </section>
 
+    <!-- BESTEHENDER ABSCHNITT: Kontaktdaten -->
+    <section class="container">
+      <div class="card card--full card-contact">
+        <h2>Kontaktdaten</h2>
+        <strong>Adresse:</strong>
+        <address>
+          MB Physiotherapie<br>
+          Michelle Böhme<br> 
+          Dorfstraße 72<br>
+          41366 Schwalmtal
+        </address><br>
+        
+        <p><strong>Mobil:</strong> +49 15224810961</p>
+        <p><strong>E-Mail:</strong> michelleboehme@mbphysiotherapie.de </p>
+        <p><strong>Öffnungszeiten:</strong> <br> Montag bis Samstags nach Terminabsprache </p>
+        
+        <!-- <p class="helper">Hinweis: Mit dem Absenden des Formulars akzeptierst du unsere Datenschutzhinweise</p> -->
+      </div>
+    </section>
+  </main>
 
   <footer>
     <div class="container">© <span id="year"></span> MB Physiotherapie  · <a href="./recht.html">Impressum & Datenschutz</a></div>
